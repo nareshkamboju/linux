@@ -897,7 +897,14 @@ int dump_emit(struct coredump_params *cprm, const void *addr, int nr)
 }
 EXPORT_SYMBOL(dump_emit);
 
-int dump_skip(struct coredump_params *cprm, size_t nr)
+void dump_skip_to(struct coredump_params *cprm, unsigned long pos)
+{
+	cprm->to_skip = pos - cprm->pos;
+	return 0;
+}
+EXPORT_SYMBOL(dump_skip_to);
+
+void dump_skip(struct coredump_params *cprm, size_t nr)
 {
 	cprm->to_skip += nr;
 	return 0;
@@ -928,11 +935,11 @@ int dump_user_range(struct coredump_params *cprm, unsigned long start,
 			stop = !dump_emit(cprm, kaddr, PAGE_SIZE);
 			kunmap_local(kaddr);
 			put_page(page);
+			if (stop)
+				return 0;
 		} else {
-			stop = !dump_skip(cprm, PAGE_SIZE);
+			dump_skip(cprm, PAGE_SIZE);
 		}
-		if (stop)
-			return 0;
 	}
 	return 1;
 }
@@ -943,7 +950,9 @@ int dump_align(struct coredump_params *cprm, int align)
 	unsigned mod = (cprm->pos + cprm->to_skip) & (align - 1);
 	if (align & (align - 1))
 		return 0;
-	return mod ? dump_skip(cprm, align - mod) : 1;
+	if (mod)
+		cprm->to_skip += align - mod;
+	return 1;
 }
 EXPORT_SYMBOL(dump_align);
 
