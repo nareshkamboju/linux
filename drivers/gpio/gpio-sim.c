@@ -296,6 +296,7 @@ static int gpio_sim_setup_sysfs(struct gpio_sim_chip *chip)
 		dev_attr->store = gpio_sim_sysfs_line_store;
 
 		attrs[i] = &dev_attr->attr;
+		sysfs_attr_init(attrs[i]);
 	}
 
 	chip->attr_group.name = "line-ctrl";
