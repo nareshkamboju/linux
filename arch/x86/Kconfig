@@ -220,7 +220,7 @@ config X86
 	select HAVE_MIXED_BREAKPOINTS_REGS
 	select HAVE_MOD_ARCH_SPECIFIC
 	select HAVE_MOVE_PMD
-	select HAVE_MOVE_PUD
+	select HAVE_MOVE_PUD                    if PGTABLE_LEVELS > 2
 	select HAVE_NMI
 	select HAVE_OPTPROBES
 	select HAVE_PCSPKR_PLATFORM
