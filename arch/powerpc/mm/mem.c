@@ -127,7 +127,7 @@ void __ref arch_remove_memory(int nid, u64 start, u64 size,
 }
 #endif
 
-#ifndef CONFIG_NUMA
+#ifndef CONFIG_NEED_MULTIPLE_NODES
 void __init mem_topology_setup(void)
 {
 	max_low_pfn = max_pfn = memblock_end_of_DRAM() >> PAGE_SHIFT;
@@ -162,7 +162,7 @@ static int __init mark_nonram_nosave(void)
 
 	return 0;
 }
-#else /* CONFIG_NUMA */
+#else /* CONFIG_NEED_MULTIPLE_NODES */
 static int __init mark_nonram_nosave(void)
 {
 	return 0;

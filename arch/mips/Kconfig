@@ -2864,7 +2864,7 @@ config RANDOMIZE_BASE_MAX_OFFSET
 config NODES_SHIFT
 	int
 	default "6"
-	depends on NUMA
+	depends on NEED_MULTIPLE_NODES
 
 config HW_PERF_EVENTS
 	bool "Enable hardware performance counter support for perf events"

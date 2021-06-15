@@ -669,7 +669,7 @@ config NODES_SHIFT
 	int
 	default "8" if PPC64
 	default "4"
-	depends on NUMA
+	depends on NEED_MULTIPLE_NODES
 
 config USE_PERCPU_NUMA_NODE_ID
 	def_bool y
