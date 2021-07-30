@@ -640,6 +640,7 @@
 		#iommu-cells = <1>;
 		#global-interrupts = <1>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	smmu_hdlcd1: iommu@7fb10000 {
