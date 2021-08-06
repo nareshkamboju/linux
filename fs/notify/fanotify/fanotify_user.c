@@ -54,6 +54,9 @@ static int fanotify_max_queued_events __read_mostly;
 
 #include <linux/sysctl.h>
 
+static long ft_zero = 0;
+static long ft_int_max = INT_MAX;
+
 struct ctl_table fanotify_table[] = {
 	{
 		.procname	= "max_user_groups",
@@ -61,8 +64,8 @@ struct ctl_table fanotify_table[] = {
 		.maxlen		= sizeof(long),
 		.mode		= 0644,
 		.proc_handler	= proc_doulongvec_minmax,
-		.extra1		= SYSCTL_ZERO,
-		.extra2		= SYSCTL_INT_MAX,
+		.extra1		= &ft_zero,
+		.extra2		= &ft_int_max,
 	},
 	{
 		.procname	= "max_user_marks",
@@ -70,8 +73,8 @@ struct ctl_table fanotify_table[] = {
 		.maxlen		= sizeof(long),
 		.mode		= 0644,
 		.proc_handler	= proc_doulongvec_minmax,
-		.extra1		= SYSCTL_ZERO,
-		.extra2		= SYSCTL_INT_MAX,
+		.extra1		= &ft_zero,
+		.extra2		= &ft_int_max,
 	},
 	{
 		.procname	= "max_queued_events",
