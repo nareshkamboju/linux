@@ -1447,8 +1447,8 @@ static const struct user_regset aarch64_regsets[] = {
 	},
 	[REGSET_ZA] = { /* SME ZA */
 		.core_note_type = NT_ARM_ZA,
-		.n = DIV_ROUND_UP(ZA_PT_ZA_SIZE(SVE_VQ_MAX), SVE_VQ_BYTES),
-		.size = SVE_VQ_BYTES,
+		.n = 1,
+		.size = ZA_PT_SIZE(SVE_VQ_MAX),
 		.align = SVE_VQ_BYTES,
 		.regset_get = za_get,
 		.set = za_set,
