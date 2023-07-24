@@ -1094,7 +1094,10 @@ void __kfence_free(void *addr)
 	struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
 
 #ifdef CONFIG_MEMCG
-	KFENCE_WARN_ON(meta->objcg);
+       if (meta->objcg) {
+               pr_err("ADDR: %px\n", addr);
+               KFENCE_WARN_ON(1);
+       }
 #endif
 	/*
 	 * If the objects of the cache are SLAB_TYPESAFE_BY_RCU, defer freeing
