@@ -163,8 +163,13 @@ EXPORT_SYMBOL(dst_dev_put);
 
 void dst_release(struct dst_entry *dst)
 {
-	if (dst && rcuref_put(&dst->__rcuref))
+       if (dst && rcuref_put(&dst->__rcuref)) {
+               if (!(dst->flags & DST_NOCOUNT)) {
+                       dst->flags |= DST_NOCOUNT;
+                       dst_entries_add(dst->ops, -1);
+               }
 		call_rcu_hurry(&dst->rcu_head, dst_destroy_rcu);
+       }
 }
 EXPORT_SYMBOL(dst_release);
 
