@@ -22,13 +22,14 @@
 #include "vdso_config.h"
 #include "vdso_call.h"
 #include "parse_vdso.h"
+#include <linux/time_types.h>
 
 static const char *version;
 static const char **name;
 
-typedef long (*vdso_gettimeofday_t)(struct timeval *tv, struct timezone *tz);
-typedef long (*vdso_clock_gettime_t)(clockid_t clk_id, struct timespec *ts);
-typedef long (*vdso_clock_getres_t)(clockid_t clk_id, struct timespec *ts);
+typedef long (*vdso_gettimeofday_t)(struct __kernel_old_timeval *tv, struct timezone *tz);
+typedef long (*vdso_clock_gettime_t)(clockid_t clk_id, struct __kernel_old_timespec *ts);
+typedef long (*vdso_clock_getres_t)(clockid_t clk_id, struct __kernel_old_timespec *ts);
 typedef time_t (*vdso_time_t)(time_t *t);
 
 const char *vdso_clock_name[12] = {
@@ -83,7 +84,7 @@ static void vdso_test_clock_gettime(clockid_t clk_id)
 		return;
 	}
 
-	struct timespec ts;
+	struct __kernel_old_timespec ts;
 	long ret = VDSO_CALL(vdso_clock_gettime, 2, clk_id, &ts);
 
 	if (ret == 0) {
@@ -135,7 +136,7 @@ static void vdso_test_clock_getres(clockid_t clk_id)
 		return;
 	}
 
-	struct timespec ts, sys_ts;
+	struct __kernel_old_timespec ts, sys_ts;
 	long ret = VDSO_CALL(vdso_clock_getres, 2, clk_id, &ts);
 
 	if (ret == 0) {
